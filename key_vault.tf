@@ -25,7 +25,8 @@ resource "azurerm_key_vault" "main" {
     certificate_permissions = [
       "Get",
       "List",
-      "Create"
+      "Create",
+      "Delete"
     ]
   }
 
