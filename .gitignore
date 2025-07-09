@@ -6,6 +6,7 @@
 
 # python pytest cache
 **/.pytest_cache/*
+**/__pycache__/*
 
 # infracost directories
 **/.infracost/*
