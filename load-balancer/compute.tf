@@ -2,11 +2,13 @@ resource "azurerm_linux_virtual_machine" "main" {
   name                = "vm-demo"
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
-  size                = "Standard_B1s"
+  size                = "Standard_B2als_v2"
   admin_username      = var.admin_username
   disable_password_authentication = true
 
   network_interface_ids = [azurerm_network_interface.main.id]
+
+  zone = "1"
 
   admin_ssh_key {
     username   = var.admin_username
@@ -27,4 +29,14 @@ resource "azurerm_linux_virtual_machine" "main" {
   }
   
   custom_data = base64encode(file("install-nginx.sh"))
+}
+
+resource "azurerm_managed_disk" "os_disk" {
+  name                 = "osdisk-demo"
+  location             = azurerm_resource_group.main.location
+  resource_group_name  = azurerm_resource_group.main.name
+  storage_account_type = "Standard_LRS"
+  create_option        = "Empty"
+  disk_size_gb         = 30
+  zone                 = "1"
 }

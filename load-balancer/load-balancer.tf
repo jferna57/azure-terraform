@@ -3,14 +3,14 @@ resource "azurerm_public_ip" "main" {
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
   allocation_method   = "Static"
-  sku                 = "Basic"
+  sku                 = "Standard"
 }
 
 resource "azurerm_lb" "main" {
   name                = "lb-demo"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
-  sku                 = "Basic"
+  sku                 = "Standard"
 
   frontend_ip_configuration {
     name                 = "PublicIPAddress"
