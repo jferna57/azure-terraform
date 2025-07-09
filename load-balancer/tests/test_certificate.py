@@ -23,5 +23,4 @@ def test_show_https_certificate(public_ip):
     print("--- FIN DEL CERTIFICADO ---\n")
 
     # Puedes añadir asserts si quieres validar algún dato concreto:
-    assert x509.get_issuer().CN == "NombreEsperado"
-
+    assert x509.get_issuer().CN == "localhost"
