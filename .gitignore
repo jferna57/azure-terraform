@@ -1,6 +1,12 @@
 # Local .terraform directories
 **/.terraform/*
 
+# python venv directories
+**/.venv/*
+
+# python pytest cache
+**/.pytest_cache/*
+
 # infracost directories
 **/.infracost/*
 
