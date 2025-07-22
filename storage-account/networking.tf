@@ -10,6 +10,9 @@ resource "azurerm_subnet" "subnet" {
   resource_group_name  = azurerm_resource_group.main.name
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes     = ["10.0.1.0/24"]
+
+  # Permite que recursos en una subnet específica accedan a servicios de Azure (como Storage) a través de la red interna de Azure, no por internet público
+  service_endpoints    = ["Microsoft.Storage"]
 }
 
 resource "azurerm_public_ip" "public_ip" {

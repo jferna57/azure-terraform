@@ -30,6 +30,31 @@ Este proyecto despliega una pequeña infraestructura en Azure usando Terraform, 
 - Terraform v1.5 o superior
 - Clave pública SSH generada (`~/.ssh/id_rsa.pub`)
 
+## ⚠ Requisitos de red para NFS
+
+> **IMPORTANTE:** Azure Files con NFS **solo puede ser accedido desde máquinas dentro de una red virtual (VNet)** específica y autorizada.
+
+### Para permitir acceso NFS:
+
+- Las máquinas virtuales deben estar dentro de una **virtual network** autorizada.
+- El Storage Account debe estar configurado para permitir conexiones sólo desde dicha red.
+- No puedes acceder al recurso NFS desde Internet (a diferencia de SMB).
+
+### Opciones de configuración de red:
+
+1. ✅ Usa un **Service Endpoint** (opción más simple):
+
+   - La subnet desde la que se accede debe estar vinculada al servicio `Microsoft.Storage`.
+
+2. 🛡️ Usa un **Private Endpoint** (opción más segura y recomendada):
+
+   - Crea un endpoint privado entre la VNet y el servicio de Azure Files.
+   - El almacenamiento será accesible mediante una IP privada.
+
+3. 🔐 Configura el almacenamiento para denegar conexiones externas:
+   - `"Networking" > Access > Selected networks only` en el portal.
+   - Añade tu VNet y subnet.
+
 ## ⚙️ Despliegue
 
 1. Inicializa el proyecto
