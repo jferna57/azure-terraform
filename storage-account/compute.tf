@@ -41,9 +41,11 @@ resource "azurerm_linux_virtual_machine" "linux_vm" {
     version   = "latest"
   }
 
-  custom_data = base64encode(templatefile("${path.module}/scripts/mount_azure_files.sh.tpl", {
-    storage_account_name = azurerm_storage_account.sa.name,
-    storage_account_key  = azurerm_storage_account.sa.primary_access_key,
-    fileshare_name       = azurerm_storage_share.fileshare.name
-  }))
+custom_data = base64encode(templatefile("${path.module}/scripts/mount_azure_files.sh.tpl", {
+  storage_account_name = azurerm_storage_account.sa.name,
+  storage_account_key  = azurerm_storage_account.sa.primary_access_key,
+  smb_share_name       = azurerm_storage_share.smb_share.name,
+  nfs_share_name       = azurerm_storage_share.nfs_share.name
+}))
+
 }

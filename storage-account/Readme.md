@@ -1,15 +1,63 @@
-# Proyecto Terraform: Infraestructura Básica en Azure con Azure Files por SMB
+# Proyecto Terraform - Azure Linux VMs con Azure Files (SMB + NFS)
 
-Este proyecto provisiona una infraestructura básica en Microsoft Azure usando Terraform. Implementa los siguientes recursos:
+Este proyecto despliega una pequeña infraestructura en Azure usando Terraform, diseñada para ambientes de prueba o desarrollo. Crea dos máquinas virtuales Linux y monta dos Azure File Shares (uno por SMB y otro por NFS) en ambas VMs.
 
-- 2 máquinas virtuales Linux (Ubuntu) de tamaño básico (Standard_B1s)
-- Red virtual con subred privada
-- Cuenta de almacenamiento con Azure Files habilitado y exportado por SMB
-- Montaje automático del recurso Azure File Share en ambas VMs Linux mediante `cloud-init`
+## 🚀 ¿Qué hace?
 
-## ⚙️ Requisitos
+- Crea un grupo de recursos en Azure
+- Provisiona dos máquinas virtuales Linux (Ubuntu)
+- Configura una red virtual y subred privada
+- Crea una cuenta de almacenamiento tipo Premium
+- Crea dos Azure Files:
+  - Un recurso compartido SMB
+  - Un recurso compartido NFS
+- Monta automáticamente los recursos compartidos en las VMs usando cloud-init
 
-- Terraform ≥ 1.5
-- Cuenta de Azure con permisos para crear recursos
-- Clave pública SSH generada previamente
-- `az` CLI para obtener credenciales de `az login`
+## 📂 Estructura del proyecto
+
+├── main.tf # Recursos principales (GR, red, VMs)
+├── storage.tf # Azure Files (SMB y NFS)
+├── variables.tf # Variables necesarias
+├── outputs.tf # Datos de salida útiles (IPs, rutas)
+├── scripts/
+│ └── mount_azure_files.sh.tpl # Script que se ejecuta al arrancar (cloud-init)
+├── terraform.tfvars # Archivo con tus valores personales (opcional)
+├── README.md # Este archivo
+
+## ✅ Requisitos
+
+- Azure CLI (`az`) autenticado (`az login`)
+- Terraform v1.5 o superior
+- Clave pública SSH generada (`~/.ssh/id_rsa.pub`)
+
+## ⚙️ Despliegue
+
+1. Inicializa el proyecto
+
+```bash
+terraform init
+```
+
+2. Aplica el despliegue
+
+```bash
+terraform apply
+```
+
+3. Espera y toma nota de las IPs públicas y recursos salientes mostrados al final.
+
+## 🧹 Limpieza
+
+Cuando termines, puedes destruir toda la infraestructura:
+
+```bash
+terraform destroy
+```
+
+## 📝 Notas
+
+- La carpeta `/mnt/smbshare` montará el recurso compartido SMB.
+- La carpeta `/mnt/nfsshare` montará el recurso NFS.
+- El script de montaje se ejecuta automáticamente al crear cada VM.
+
+---

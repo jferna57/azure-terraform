@@ -6,8 +6,16 @@ resource "azurerm_storage_account" "sa" {
   account_replication_type = "LRS"
 }
 
-resource "azurerm_storage_share" "fileshare" {
-  name                 = "share-ejemplo"
+resource "azurerm_storage_share" "smb_share" {
+  name                 = "smb-share"
   storage_account_id   = azurerm_storage_account.sa.id
   quota                = 100
+  enabled_protocol     = "SMB"
+}
+
+resource "azurerm_storage_share" "nfs_share" {
+  name                  = "nfs-share"
+  storage_account_id    = azurerm_storage_account.sa.id
+  quota                 = 100
+  enabled_protocol      = "NFS"
 }
