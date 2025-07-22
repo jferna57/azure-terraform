@@ -1,0 +1,1 @@
+variable "admin_username" { default = "azureuser" }
